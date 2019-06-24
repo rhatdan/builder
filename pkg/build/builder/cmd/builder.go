@@ -160,7 +160,7 @@ func newBuilderConfigFromEnvironment(out io.Writer, needsDocker bool) (*builderC
 		cfg.dockerClient = dockerClient
 
 		// S2I requires this to be set, even though we aren't going to use
-		// docker because we're just generating a dockerfile.
+		// docker because we're just generating a Dockerfile.
 		// TODO: update the validation in s2i to be smarter and then
 		// remove this.
 		cfg.dockerEndpoint = "n/a"
@@ -306,7 +306,7 @@ func (c *builderConfig) execute(b builder) error {
 
 type dockerBuilder struct{}
 
-// Build starts a Docker build.
+// Build starts a image build.
 func (dockerBuilder) Build(dockerClient bld.DockerClient, sock string, buildsClient buildclientv1.BuildInterface, build *buildapiv1.Build, cgLimits *s2iapi.CGroupLimits) error {
 	return bld.NewDockerBuilder(dockerClient, buildsClient, build, cgLimits).Build()
 }
@@ -330,8 +330,8 @@ func runBuild(out io.Writer, builder builder) error {
 	return cfg.execute(builder)
 }
 
-// RunDockerBuild creates a docker builder and runs its build
-func RunDockerBuild(out io.Writer) error {
+// RunImageBuild creates a image builder and runs its build
+func RunImageBuild(out io.Writer) error {
 	switch {
 	case glog.Is(6):
 		serviceability.InitLogrus("DEBUG")
@@ -377,12 +377,12 @@ func RunGitClone(out io.Writer) error {
 	return cfg.clone()
 }
 
-// RunManageDockerfile manipulates the dockerfile for docker builds.
-// It will write the inline dockerfile to the working directory (possibly
-// overwriting an existing dockerfile) and then update the dockerfile
+// RunManageDockerfile manipulates the Dockerfile for image builds.
+// It will write the inline Dockerfile to the working directory (possibly
+// overwriting an existing Dockerfile) and then update the Dockerfile
 // in the working directory (accounting for contextdir+dockerfilepath)
 // with new FROM image information based on the imagestream/imagetrigger
-// and also adds some env and label values to the dockerfile based on
+// and also adds some env and label values to the Dockerfile based on
 // the build information.
 func RunManageDockerfile(out io.Writer) error {
 	switch {

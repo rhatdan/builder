@@ -146,7 +146,7 @@ func (s *S2IBuilder) Build() error {
 	}
 
 	var push bool
-	// if there is no output target, set one up so the docker build logic
+	// if there is no output target, set one up so the image build logic
 	// (which requires a tag) will still work, but we won't push it at the end.
 	if s.build.Spec.Output.To == nil || len(s.build.Spec.Output.To.Name) == 0 {
 		s.build.Status.OutputDockerImageReference = s.build.Name
@@ -317,7 +317,7 @@ func (s *S2IBuilder) Build() error {
 	}
 
 	glog.V(4).Infof("Starting S2I build from %s/%s BuildConfig ...", s.build.Namespace, s.build.Name)
-	glog.Infof("Generating dockerfile with builder image %s", s.build.Spec.Strategy.SourceStrategy.From.Name)
+	glog.Infof("Generating Dockerfile with builder image %s", s.build.Spec.Strategy.SourceStrategy.From.Name)
 	result, err := builder.Build(config)
 
 	for _, stage := range result.BuildInfo.Stages {
@@ -389,7 +389,7 @@ func (s *S2IBuilder) Build() error {
 			return err
 		}
 		out := dockerfile.Write(node)
-		glog.V(4).Infof("Replacing dockerfile\n%s\nwith:\n%s", string(in), string(out))
+		glog.V(4).Infof("Replacing Dockerfile\n%s\nwith:\n%s", string(in), string(out))
 		overwriteFile(config.AsDockerfile, out)
 	}
 	// TODO pass ImageOptimization policy to the build?

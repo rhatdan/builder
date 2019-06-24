@@ -93,9 +93,9 @@ type localObjectBuildSource interface {
 	// available for the build time.
 	// For the Source build strategy, these will be injected into a container
 	// where the assemble script runs.
-	// For the Docker build strategy, these will be copied into the build
+	// For the Dockerfile build strategy, these will be copied into the build
 	// directory, where the Dockerfile is located, so users can ADD or COPY them
-	// during docker build.
+	// during image build.
 	DestinationPath() string
 	// IsSecret returns `true` if the build source is a `Secret` containing sensitive data.
 	IsSecret() bool
@@ -183,7 +183,7 @@ func containerName(strategyName, buildName, namespace, containerPurpose string) 
 		uid)
 }
 
-// buildPostCommit transforms the supplied BuildPostCommitSpec into dockerfile commands.
+// buildPostCommit transforms the supplied BuildPostCommitSpec into Dockerfile commands.
 func buildPostCommit(postCommitSpec buildapiv1.BuildPostCommitSpec) string {
 	command := postCommitSpec.Command
 	args := postCommitSpec.Args
@@ -430,7 +430,7 @@ func addBuildParameters(dir string, build *buildapiv1.Build, sourceInfo *git.Sou
 	}
 
 	out := dockerfile.Write(node)
-	glog.V(4).Infof("Replacing dockerfile\n%s\nwith:\n%s", string(in), string(out))
+	glog.V(4).Infof("Replacing Dockerfile\n%s\nwith:\n%s", string(in), string(out))
 	return overwriteFile(dockerfilePath, out)
 }
 

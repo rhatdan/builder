@@ -23,9 +23,9 @@ var (
 		It expects to be run inside of a container.`)
 
 	dockerBuilderLong = templates.LongDesc(`
-		Perform a Docker build
+		Perform a image build
 
-		This command executes a Docker build using arguments passed via the environment.
+		This command executes a image build using arguments passed via the environment.
 		It expects to be run inside of a container.`)
 
 	gitCloneLong = templates.LongDesc(`
@@ -35,9 +35,9 @@ var (
 		It expects to be run inside of a container.`)
 
 	manageDockerfileLong = templates.LongDesc(`
-		Manipulates a dockerfile for a docker build.
+		Manipulates a Dockerfile for a image build.
 
-		This command updates a dockerfile based on build inputs.
+		This command updates a Dockerfile based on build inputs.
 		It expects to be run inside of a container.`)
 
 	extractImageContentLong = templates.LongDesc(`
@@ -78,14 +78,14 @@ func NewCommandS2IBuilder(name string) *cobra.Command {
 	return cmd
 }
 
-// NewCommandDockerBuilder provides a CLI handler for Docker build type
-func NewCommandDockerBuilder(name string) *cobra.Command {
+// NewCommandImageBuilder provides a CLI handler for image build type
+func NewCommandImageBuilder(name string) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   name,
-		Short: "Run a Docker build",
+		Short: "Run a image build",
 		Long:  dockerBuilderLong,
 		Run: func(c *cobra.Command, args []string) {
-			err := cmd.RunDockerBuild(c.OutOrStderr())
+			err := cmd.RunImageBuild(c.OutOrStderr())
 			kcmdutil.CheckErr(err)
 		},
 	}
@@ -112,7 +112,7 @@ func NewCommandGitClone(name string) *cobra.Command {
 func NewCommandManageDockerfile(name string) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   name,
-		Short: "Manage a dockerfile for a docker build",
+		Short: "Manage a Dockerfile for a image build",
 		Long:  manageDockerfileLong,
 		Run: func(c *cobra.Command, args []string) {
 			err := cmd.RunManageDockerfile(c.OutOrStderr())
