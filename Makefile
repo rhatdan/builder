@@ -11,10 +11,10 @@ build:
 
 build-image:
 	rm -f "$(PROG)"
-	docker build -t "$(IMAGE):$(TAG)" .
+	buildah bud -t "$(IMAGE):$(TAG)" .
 
 build-devel-image: build
-	docker build -t "$(IMAGE):$(TAG)" -f Dockerfile-dev .
+	buildah bud -t "$(IMAGE):$(TAG)" -f Dockerfile-dev .
 
 test:
 	hack/test.sh
